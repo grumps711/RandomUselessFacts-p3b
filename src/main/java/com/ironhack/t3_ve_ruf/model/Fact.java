@@ -44,11 +44,11 @@ public class Fact {
 
     public static Fact fromDTO(FactDTO factDTO) {
         var fact = new Fact();
-        factDTO.setText(factDTO.getText());
-        factDTO.setSource(factDTO.getSource());
-        factDTO.setSource_url(factDTO.getSource_url());
-        factDTO.setLanguage(factDTO.getLanguage());
-        factDTO.setPermalink(factDTO.getPermalink());
+        fact.setText(factDTO.getText());
+        fact.setSource(factDTO.getSource());
+        fact.setSourceUrl(factDTO.getSourceUrl());
+        fact.setLanguage(factDTO.getLanguage());
+        fact.setPermalink(factDTO.getPermalink());
         return fact;
     }
 

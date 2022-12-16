@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("randomfact")
@@ -21,22 +23,46 @@ public class FactController {
     private final FactProxy factProxy;
     private final FactService factService;
 
-    //   View a random fact from the public API
+    //   #2     Fetch a random fact from the public API
     @GetMapping
     FactDTO randomFact(){
         return factProxy.getOne();
     }
 
-   //    View favorite facts
-    @GetMapping("/viewfavorites")
+   //    #3     Fetch favorite facts
+    @GetMapping("/view-favorites")
     public List<Fact> getAllFacts() {
         return factService.findAll();
     }
 
-//        Save favorite fact
-    @PostMapping("/savefavorite")
+//       #4     Save favorite fact
+    @PostMapping("/save-favorite")
     @ResponseStatus(HttpStatus.CREATED)//pone el codigo 201 si es  OK
-    public FactDTO createFact (@RequestBody @Valid FactDTO fact) {
-        return factService.createFact(fact);
+    public FactDTO createFact (@RequestBody @Valid FactDTO factDTO) {
+        return factService.createFact(factDTO);
+    }
+
+//      #5      Delete favorite fact
+    @DeleteMapping("/delete-favorite/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFact(@PathVariable("id") Long id){
+        factService.deleteFact(id);
+    }
+
+    //    #6      Replace favorite
+    @PutMapping("/replace-favorite/{id}")
+    public Fact updateFact(@PathVariable("id") Long id, @RequestBody Fact fact){
+        return factService.updateFact(id, fact);
+    }
+
+    //    #7       Edit favorite
+    @PatchMapping("/edit-favorite/{id}")
+    public Fact updateNameStockPrice(@PathVariable Long id,
+                                     @RequestParam Optional<String> text,
+                                     @RequestParam Optional<String> source,
+                                     @RequestParam Optional<String> sourceUrl,
+                                     @RequestParam Optional<String> language,
+                                     @RequestParam Optional<String> permalink){
+        return factService.updateParams(id, text, source, sourceUrl, language, permalink);
     }
 }
