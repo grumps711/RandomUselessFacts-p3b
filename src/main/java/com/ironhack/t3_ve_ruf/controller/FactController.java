@@ -57,7 +57,7 @@ public class FactController {
 
     //    #7       Edit favorite
     @PatchMapping("/edit-favorite/{id}")
-    public Fact updateNameStockPrice(@PathVariable Long id,
+    public Fact updateParams(@PathVariable Long id,
                                      @RequestParam Optional<String> text,
                                      @RequestParam Optional<String> source,
                                      @RequestParam Optional<String> sourceUrl,
