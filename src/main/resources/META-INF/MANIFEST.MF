@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: com.ironhack.t3_ve_ruf.T3VeRufApplication
+
