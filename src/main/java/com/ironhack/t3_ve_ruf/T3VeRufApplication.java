@@ -11,18 +11,15 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @RequiredArgsConstructor
 public class T3VeRufApplication implements CommandLineRunner {
+
     private final Menu menu;
 
     public static void main(String[] args) {
         SpringApplication.run(T3VeRufApplication.class, args);
     }
 
-
     @Override
     public void run(String... args) throws Exception {
-
         menu.startApp();
-
-
     }
 }
