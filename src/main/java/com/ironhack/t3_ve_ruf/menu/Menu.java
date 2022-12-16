@@ -8,6 +8,7 @@ import com.ironhack.t3_ve_ruf.proxy.FactProxy;
 import com.ironhack.t3_ve_ruf.service.FactService;
 import com.ironhack.t3_ve_ruf.utils.ConsoleColors;
 import com.ironhack.t3_ve_ruf.utils.ConsoleInteracction;
+import com.ironhack.t3_ve_ruf.utils.TerminalTools;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,15 @@ private final FactProxy factProxy;
 
         while (!input.equalsIgnoreCase("EXIT")) {
 
-            System.out.println(":::: Random Useless Facts ::::");
+            System.out.println(TerminalTools.ANSI_RESET);
+            System.out.println("\n" +
+                    "██████╗  █████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗    ██╗   ██╗███████╗███████╗██╗     ███████╗███████╗███████╗    ███████╗ █████╗  ██████╗████████╗███████╗\n" +
+                    "██╔══██╗██╔══██╗████╗  ██║██╔══██╗██╔═══██╗████╗ ████║    ██║   ██║██╔════╝██╔════╝██║     ██╔════╝██╔════╝██╔════╝    ██╔════╝██╔══██╗██╔════╝╚══██╔══╝██╔════╝\n" +
+                    "██████╔╝███████║██╔██╗ ██║██║  ██║██║   ██║██╔████╔██║    ██║   ██║███████╗█████╗  ██║     █████╗  ███████╗███████╗    █████╗  ███████║██║        ██║   ███████╗\n" +
+                    "██╔══██╗██╔══██║██║╚██╗██║██║  ██║██║   ██║██║╚██╔╝██║    ██║   ██║╚════██║██╔══╝  ██║     ██╔══╝  ╚════██║╚════██║    ██╔══╝  ██╔══██║██║        ██║   ╚════██║\n" +
+                    "██║  ██║██║  ██║██║ ╚████║██████╔╝╚██████╔╝██║ ╚═╝ ██║    ╚██████╔╝███████║███████╗███████╗███████╗███████║███████║    ██║     ██║  ██║╚██████╗   ██║   ███████║\n" +
+                    "╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝     ╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚══════╝\n" +
+                    "                                                                                                                                                                \n");
             System.out.println("""
                             1) Show a random fact
                             2) Show your favorite facts
@@ -59,11 +68,12 @@ private final FactProxy factProxy;
             input = sc.nextLine();
 
             if (input.equalsIgnoreCase("1")) {
-                String option = "";
 
+                String option = "";
                     while(!option.equalsIgnoreCase("back")) {
+                        System.out.println(TerminalTools.ANSI_RESET);
                         System.out.println("\n");
-                        System.out.println("----Showing Random Fact----");
+                        System.out.println("----Random Useless Fact----");
                         System.out.println("\n");
                         var randomPresentFact = factProxy.getOne();
                         getFactDTOPretty(randomPresentFact);
@@ -84,6 +94,7 @@ private final FactProxy factProxy;
                     }
 
             } else if (input.equalsIgnoreCase("2")) {
+                System.out.println(TerminalTools.ANSI_RESET);
                 System.out.println("----Showing your favorite saved facts----");
 
                 List<Fact> factList= factController.getAllFacts();
@@ -100,6 +111,7 @@ private final FactProxy factProxy;
                 }
 
             } else if (input.equalsIgnoreCase("3")) {
+                System.out.println(TerminalTools.ANSI_RESET);
                 System.out.println("----Add now your favorite fact----\n");
                 System.out.println("Type now your fact");
                 String text = sc.nextLine();
@@ -122,12 +134,14 @@ private final FactProxy factProxy;
                 System.out.println("your fact has now been saved!");
 
             } else if (input.equalsIgnoreCase("4")) {
+                System.out.println(TerminalTools.ANSI_RESET);
                 System.out.println("you want to delete a fact, what is the ID of the fact?");
                 Long id = Long.valueOf(sc.nextLine());
 
                 factController.deleteFact(id);
                 System.out.println("Fact with id " + id + " has been deleted!");
             } else if (input.equalsIgnoreCase("5")) {
+                System.out.println(TerminalTools.ANSI_RESET);
                 System.out.println("Replace a favorite fact! please type the id of the fact:");
                 Long id = Long.valueOf(sc.nextLine());
 
@@ -150,6 +164,7 @@ private final FactProxy factProxy;
 
                 factController.updateFact(id,factUpdated);
             } else if (input.equalsIgnoreCase("6")) {
+                System.out.println(TerminalTools.ANSI_RESET);
                 System.out.println("You are now editing a fact:\n");
 
                 System.out.println("please type the id of the fact:");
