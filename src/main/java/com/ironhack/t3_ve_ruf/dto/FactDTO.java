@@ -13,7 +13,7 @@ public class FactDTO {
 
     private String text;
     private String source;
-    private String source_url;
+    private String sourceUrl;
     private String language;
     private String permalink;
 
@@ -21,7 +21,7 @@ public class FactDTO {
         var factDTO = new FactDTO();
         factDTO.setText(fact.getText());
         factDTO.setSource(fact.getSource());
-        factDTO.setSource_url(fact.getSourceUrl());
+        factDTO.setSourceUrl(fact.getSourceUrl());
         factDTO.setLanguage(fact.getLanguage());
         factDTO.setPermalink(fact.getPermalink());
         return factDTO;
