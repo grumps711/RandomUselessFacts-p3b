@@ -13,5 +13,11 @@ public class TerminalTools {
         public static final String CLEAR_SCREEN = "\033[H\033[2J";
         public static final String ANSI_CYAN = "\u001b[36;1m";
         public static final String ANSI_MAGENTA = "\u001b[35;1m";
+
+        public static void cleanScreen(){
+                System.out.println(TerminalTools.ANSI_RESET);
+        }
+
 }
+
 
