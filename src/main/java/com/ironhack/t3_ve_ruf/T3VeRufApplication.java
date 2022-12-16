@@ -20,6 +20,6 @@ public class T3VeRufApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        menu.startApp();
+        menu.showMenu();
     }
 }

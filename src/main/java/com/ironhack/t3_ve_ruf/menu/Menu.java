@@ -1,22 +1,23 @@
 package com.ironhack.t3_ve_ruf.menu;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ironhack.t3_ve_ruf.controller.FactController;
 import com.ironhack.t3_ve_ruf.dto.FactDTO;
+import com.ironhack.t3_ve_ruf.exception.FactNotFoundException;
 import com.ironhack.t3_ve_ruf.model.Fact;
 import com.ironhack.t3_ve_ruf.proxy.FactProxy;
 import com.ironhack.t3_ve_ruf.service.FactService;
-
-import com.ironhack.t3_ve_ruf.utils.TerminalTools;
+import com.ironhack.t3_ve_ruf.utils.Validator;
 import com.ironhack.t3_ve_ruf.view.prints;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Component;
-
 import java.util.List;
-import java.util.Scanner;
 
+
+import static com.ironhack.t3_ve_ruf.utils.ConsoleColors.BLUE_BOLD;
+import static com.ironhack.t3_ve_ruf.utils.ConsoleColors.YELLOW;
+import static com.ironhack.t3_ve_ruf.utils.ConsoleInteraction.getStringInput;
+import static com.ironhack.t3_ve_ruf.utils.ConsoleInteraction.printInRed;
 import static com.ironhack.t3_ve_ruf.utils.TerminalTools.cleanScreen;
 
 
@@ -29,45 +30,27 @@ private final FactController factController;
 private final FactProxy factProxy;
 
 
-    public void startApp() {
-
-
-        showMenu();
-    }
-
-    private void showMenu() {
+    public void showMenu() {
         var input = "";
-        var sc = new Scanner(System.in);
-        ObjectMapper mapper = new ObjectMapper();
-
-
 
         cleanScreen();
-        prints.title();
-
+        prints.title(BLUE_BOLD);
         while (!input.equalsIgnoreCase("EXIT")) {
-
-            prints.menuOptions();
-
-
-            input = sc.nextLine();
+            prints.menuOptions(YELLOW);
+            input = getStringInput();
 
             if (input.equalsIgnoreCase("1")) {
-
                 String option = "";
                     while(!option.equalsIgnoreCase("back")) {
-
                         cleanScreen();
                         System.out.println("\n----Random Useless Fact----\n");
-
                         var randomPresentFact = factProxy.getOne();
                         getFactDTOPretty(randomPresentFact);
                         System.out.println();
                         System.out.println("1) Save this fact to your favorites");
                         System.out.println("2) Show another random fact");
                         System.out.println("Type BACK to go back to menu\n");
-
-                        option = sc.nextLine();
+                        option = getStringInput();
 
                         if (option.equals("1")) {
                             factController.createFact(randomPresentFact);
@@ -75,8 +58,7 @@ private final FactProxy factProxy;
                             System.out.println("\n");
                             System.out.println("1) Show another random fact");
                             System.out.println("Type BACK to go back to menu\n");
-
-                            option = sc.nextLine();
+                            option = getStringInput();
                         }
                     }
 
@@ -84,14 +66,14 @@ private final FactProxy factProxy;
                 cleanScreen();
                 System.out.println("----Showing your favorite saved facts----");
 
-                //Creates a list of all facts
+                //Creates a list with all database facts
                 List<Fact> factList= factController.getAllFacts();
 
-                //Prints the factList
                 if (factList.size()==0){
                    System.out.println("\nYou don't have any favorites yet :(\n");
                }
 
+                //Prints in a fancy way all the facts in the database
                 for (int i = 0; i < factList.size(); i++) {
                     getFactPretty(factList.get(i));
                     System.out.println("\n");
@@ -101,22 +83,20 @@ private final FactProxy factProxy;
                 cleanScreen();
                 System.out.println("----Add now your favorite fact----\n");
 
-
-
                 System.out.println("Type now your fact");
-                String text = sc.nextLine();
+                String text = getStringInput();
 
                 System.out.println("Now type the source (if you know)");
-                String source = sc.nextLine();
+                String source = getStringInput();
 
                 System.out.println("Now type the source URL (if you know)");
-                String sourceUrl = sc.nextLine();
+                String sourceUrl = getStringInput();
 
                 System.out.println("Now type the language");
-                String language = sc.nextLine();
+                String language = getStringInput();
 
                 System.out.println("Now type the permalink (if you know)");
-                String permalink = sc.nextLine();
+                String permalink = getStringInput();
 
                 var factToSave = new FactDTO(text,source,sourceUrl,language,permalink);
 
@@ -125,56 +105,78 @@ private final FactProxy factProxy;
 
             } else if (input.equals("4")) {
                 cleanScreen();
-                System.out.println("you want to delete a fact, what is the ID of the fact?");
-                Long id = Long.valueOf(sc.nextLine());
+                Long id= Validator.askForANumber("you want to delete a fact, what is the ID of the fact?",
+                                                "Please enter a valid number");
+                try {
+                    var findFactToDelete = factService.findFactById(id);
+                    factController.deleteFact(id);
+                    System.out.println("Fact with id " + id + " has been deleted!");
+                }catch (FactNotFoundException e){
+                    printInRed(e.getMessage());
+                }
 
-                factController.deleteFact(id);
-                System.out.println("Fact with id " + id + " has been deleted!");
             } else if (input.equalsIgnoreCase("5")) {
                 cleanScreen();
-                System.out.println("Replace a favorite fact! please type the id of the fact:");
-                Long id = Long.valueOf(sc.nextLine());
+                Long id= Validator.askForANumber("Replace a favorite fact! please type the id of the fact:",
+                        "Please enter a valid number");
+
+                try {
+                    var findFactToDelete = factService.findFactById(id);
+
+                }catch (FactNotFoundException e){
+                    printInRed(e.getMessage());
+                    continue;
+                }
 
                 System.out.println("type now your replaceable new fact");
-                String text = sc.nextLine();
+                String text = getStringInput();
 
                 System.out.println("Now type the source (if you know)");
-                String source = sc.nextLine();
+                String source = getStringInput();
 
                 System.out.println("Now type the source URL (if you know)");
-                String sourceUrl = sc.nextLine();
+                String sourceUrl = getStringInput();
 
                 System.out.println("Now type the language");
-                String language = sc.nextLine();
+                String language = getStringInput();
 
                 System.out.println("Now type the permalink (if you know)");
-                String permalink = sc.nextLine();
+                String permalink = getStringInput();
 
                 var factUpdated = new Fact(text,source,sourceUrl,language,permalink);
 
                 factController.updateFact(id,factUpdated);
+
             } else if (input.equalsIgnoreCase("6")) {
                 cleanScreen();
                 System.out.println("You are now editing a fact:\n");
-
-                System.out.println("please type the id of the fact:");
-                Long id = Long.valueOf(sc.nextLine());
-
                 System.out.println("Now please type your new value or leave blank");
+
+                Long id= Validator.askForANumber("\"please type the id of the fact:\"",
+                        "Please enter a valid number");
+
+                try {
+                    var findFactToDelete = factService.findFactById(id);
+
+                }catch (FactNotFoundException e){
+                    printInRed(e.getMessage());
+                    continue;
+                }
+
                 System.out.println("Fact text:");
-                String text = sc.nextLine();
+                String text = getStringInput();
 
                 System.out.println("Source:");
-                String source = sc.nextLine();
+                String source = getStringInput();
 
                 System.out.println("Source URL:");
-                String sourceUrl = sc.nextLine();
+                String sourceUrl = getStringInput();
 
                 System.out.println("Language:");
-                String language = sc.nextLine();
+                String language = getStringInput();
 
                 System.out.println("Permalink:");
-                String permalink = sc.nextLine();
+                String permalink = getStringInput();
 
                 factController.updateParams(id, text.describeConstable(), source.describeConstable(), sourceUrl.describeConstable(), language.describeConstable(), permalink.describeConstable());
 
@@ -182,10 +184,7 @@ private final FactProxy factProxy;
             }
         }
         System.exit(0);
-
-
     }
-
 
     public void getFactDTOPretty(FactDTO factDTO){
         System.out.println("Text: " + factDTO.getText());
@@ -203,5 +202,4 @@ private final FactProxy factProxy;
         System.out.println("Language: " + fact.getLanguage());
         System.out.println("Permalink: " + fact.getPermalink());
     }
-
 }

@@ -1,8 +1,10 @@
 package com.ironhack.t3_ve_ruf.view;
 
+import com.ironhack.t3_ve_ruf.utils.ConsoleColors;
+
 public class prints {
 
-    public static void title(){
+    public static void title(String color){
           String title= """
                  
                     ██████╗  █████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗    ██╗   ██╗███████╗███████╗██╗     ███████╗███████╗███████╗    ███████╗ █████╗  ██████╗████████╗███████╗
@@ -13,10 +15,10 @@ public class prints {
                     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝     ╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚══════╝
                     """;
 
-          System.out.println(title);
+          System.out.println(color+title+ConsoleColors.RESET);
     }
 
-    public static void menuOptions(){
+    public static void menuOptions(String color){
 
         String menu= """
                             1) Show a random fact
@@ -29,7 +31,7 @@ public class prints {
                             
                             EXIT  To quit the program
                 """;
-        System.out.println(menu);
+        System.out.println(color + menu+ConsoleColors.RESET);
 
     }
 }

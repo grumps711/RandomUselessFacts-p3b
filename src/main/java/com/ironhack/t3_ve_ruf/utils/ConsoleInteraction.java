@@ -1,10 +1,8 @@
 package com.ironhack.t3_ve_ruf.utils;
 
-import java.io.IOException;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
 
-public class ConsoleInteracction {
+public class ConsoleInteraction {
 
     private static final Scanner sc = new Scanner(System.in);
 
@@ -17,6 +15,9 @@ public class ConsoleInteracction {
         System.out.println(color + text + ConsoleColors.RESET);
     }
 
+    public static void printInRed(String message){
+        System.out.println(ConsoleColors.RED+message+ ConsoleColors.RESET);
+    }
 
 
 
