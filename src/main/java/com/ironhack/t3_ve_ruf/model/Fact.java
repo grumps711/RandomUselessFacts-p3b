@@ -20,13 +20,9 @@ public class Fact {
     private Long id;
 
     private String text;
-
     private String source;
-
     private String sourceUrl;
-
     private String language;
-
     private String permalink;
 
     @CreationTimestamp
@@ -45,6 +41,17 @@ public class Fact {
         this.language = language;
         this.permalink = permalink;
     }
+
+    public static Fact fromDTO(FactDTO factDTO) {
+        var fact = new Fact();
+        factDTO.setText(factDTO.getText());
+        factDTO.setSource(factDTO.getSource());
+        factDTO.setSource_url(factDTO.getSource_url());
+        factDTO.setLanguage(factDTO.getLanguage());
+        factDTO.setPermalink(factDTO.getPermalink());
+        return fact;
+    }
+
 
 //    public static Object fromDTO(FactDTO fact) {
 //        var fact = new Fact();
