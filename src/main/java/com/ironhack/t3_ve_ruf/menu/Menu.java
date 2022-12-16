@@ -14,8 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 
-import static com.ironhack.t3_ve_ruf.utils.ConsoleColors.BLUE_BOLD;
-import static com.ironhack.t3_ve_ruf.utils.ConsoleColors.YELLOW;
+import static com.ironhack.t3_ve_ruf.utils.ConsoleColors.*;
 import static com.ironhack.t3_ve_ruf.utils.ConsoleInteraction.getStringInput;
 import static com.ironhack.t3_ve_ruf.utils.ConsoleInteraction.printInRed;
 import static com.ironhack.t3_ve_ruf.utils.TerminalTools.cleanScreen;
@@ -46,6 +45,10 @@ private final FactProxy factProxy;
                         System.out.println("\n----Random Useless Fact----\n");
                         var randomPresentFact = factProxy.getOne();
                         getFactDTOPretty(randomPresentFact);
+
+                        if (randomPresentFact.getLanguage().equalsIgnoreCase("de"))
+                            System.out.println(GREEN_BACKGROUND+"Das ist Deutsch. Hast du es verstanden?"+RESET);
+                        printInRed("🤣🤣 That's German. Did you undestand it?"+RESET);
                         System.out.println();
                         System.out.println("1) Save this fact to your favorites");
                         System.out.println("2) Show another random fact");
