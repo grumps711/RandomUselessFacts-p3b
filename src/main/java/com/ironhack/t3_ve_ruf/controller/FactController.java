@@ -21,22 +21,22 @@ public class FactController {
     private final FactProxy factProxy;
     private final FactService factService;
 
+    //   View a random fact from the public API
     @GetMapping
     FactDTO randomFact(){
         return factProxy.getOne();
     }
-//
-//    //    View favorites
-//    @GetMapping
-//    public List<Game> getAllGames () {
-//        return gameService.findAll();
-//    }
-//
-//    //    Save favorite
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)//pone el codigo 201 si es  OK
-//    public FactDTO createFact (@RequestBody @Valid FactDTO fact) {
-//        return factService.createFact(fact);
-//    }
-//
+
+   //    View favorite facts
+    @GetMapping("/viewfavorites")
+    public List<Fact> getAllFacts() {
+        return factService.findAll();
+    }
+
+//        Save favorite fact
+    @PostMapping("/savefavorite")
+    @ResponseStatus(HttpStatus.CREATED)//pone el codigo 201 si es  OK
+    public FactDTO createFact (@RequestBody @Valid FactDTO fact) {
+        return factService.createFact(fact);
+    }
 }
