@@ -59,13 +59,21 @@ public class FactService {
     //     Edit Favorite Fact in Database
     public Fact updateParams(Long id, Optional<String> text, Optional<String> source, Optional<String> sourceUrl, Optional<String> language, Optional<String> permalink) {
         var factToUpdate = findFactById(id);
-        text.ifPresent(factToUpdate::setText);
-        source.ifPresent(factToUpdate::setSource);
-        sourceUrl.ifPresent(factToUpdate::setSourceUrl);
-        language.ifPresent(factToUpdate::setLanguage);
-        permalink.ifPresent(factToUpdate::setPermalink);
+        if (text.isPresent() && !text.get().isBlank()) {factToUpdate.setText(text.get());}
+        if (source.isPresent() && !source.get().isBlank()) {factToUpdate.setSource(source.get());}
+        if (sourceUrl.isPresent() && !sourceUrl.get().isBlank()) {factToUpdate.setSourceUrl(sourceUrl.get());}
+        if (language.isPresent() && !language.get().isBlank()) {factToUpdate.setLanguage(language.get());}
+        if (permalink.isPresent() && !permalink.get().isBlank()) {factToUpdate.setPermalink(permalink.get());}
         return factRepository.save(factToUpdate);
     }
 
 
+    public void chooseLanguage(String optionLanguage) {
+
+        if(optionLanguage.equalsIgnoreCase("1")){
+
+        }
+
+
+    }
 }

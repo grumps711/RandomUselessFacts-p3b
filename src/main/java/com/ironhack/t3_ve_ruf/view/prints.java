@@ -28,8 +28,7 @@ public class prints {
                                                          │   4) Delete a favorite fact         │█
                                                          │   5) Replace a favorite fact        │█
                                                          │   6) Edit a favorite fact           │█
-                                                         │                                     │█
-                                                         │                                     │█
+                                                         │                                     │█                                                                                                          
                                                          │   EXIT  To quit the program         │█
                                                          └─────────────────────────────────────┘█
                                                             █████████████████████████████████████""";
