@@ -51,11 +51,4 @@ public class Fact {
         fact.setPermalink(factDTO.getPermalink());
         return fact;
     }
-
-
-//    public static Object fromDTO(FactDTO fact) {
-//        var fact = new Fact();
-//        fact.setText
-//
-//    }
 }
