@@ -58,11 +58,11 @@ public class FactController {
     //    #7       Edit favorite
     @PatchMapping("/edit-favorite/{id}")
     public Fact updateParams(@PathVariable Long id,
-                                     @RequestParam Optional<String> text,
-                                     @RequestParam Optional<String> source,
-                                     @RequestParam Optional<String> sourceUrl,
-                                     @RequestParam Optional<String> language,
-                                     @RequestParam Optional<String> permalink){
+                             @RequestParam Optional<String> text,
+                             @RequestParam Optional<String> source,
+                             @RequestParam Optional<String> sourceUrl,
+                             @RequestParam Optional<String> language,
+                             @RequestParam Optional<String> permalink){
         return factService.updateParams(id, text, source, sourceUrl, language, permalink);
     }
 }

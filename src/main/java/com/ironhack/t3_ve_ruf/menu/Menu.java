@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import java.util.Optional;
 
 
 import static com.ironhack.t3_ve_ruf.utils.ConsoleColors.*;
@@ -43,13 +44,25 @@ private final FactProxy factProxy;
                     while(!option.equalsIgnoreCase("back")) {
                         cleanScreen();
                         System.out.println("\n----Random Useless Fact----\n");
-                        var randomPresentFact = factProxy.getOne();
+
+                        FactDTO randomPresentFact = null;
+
+//                        if(!option.equalsIgnoreCase("0")) {
+//                            randomPresentFact = factProxy.getOne();
+//                        }
+
+                        do{
+                            randomPresentFact = factProxy.getOne();
+                        }while(option.equalsIgnoreCase("0") && randomPresentFact.getLanguage().equalsIgnoreCase("de"));
+
                         getFactDTOPretty(randomPresentFact);
 
-                        if (randomPresentFact.getLanguage().equalsIgnoreCase("de"))
-                            System.out.println(GREEN_BACKGROUND+"Das ist Deutsch. Hast du es verstanden?"+RESET);
-                        printInRed("🤣🤣 That's German. Did you undestand it?"+RESET);
-                        System.out.println();
+                        if (randomPresentFact.getLanguage().equalsIgnoreCase("de")){
+                            System.out.println(BLACK_BACKGROUND +"Das ist Deutsch. Hast du es verstanden?"+RESET);
+                            printInRed("🤣🤣 That's German. Did you understand it?"+RESET);
+                            System.out.println();
+                            System.out.println("0) Show a random fact in english please");
+                        }
                         System.out.println("1) Save this fact to your favorites");
                         System.out.println("2) Show another random fact");
                         System.out.println("Type BACK to go back to menu\n");
@@ -167,21 +180,29 @@ private final FactProxy factProxy;
                 }
 
                 System.out.println("Fact text:");
-                String text = getStringInput();
+                String inputText = getStringInput();
+
+                Optional<String> text;
+
+                if(inputText.equals("")){
+                    text = Optional.empty();
+                }
+
+                text = Optional.of(inputText);
 
                 System.out.println("Source:");
-                String source = getStringInput();
+                Optional<String> source = Optional.ofNullable(getStringInput());
 
                 System.out.println("Source URL:");
-                String sourceUrl = getStringInput();
+                Optional<String> sourceUrl = Optional.ofNullable(getStringInput());
 
                 System.out.println("Language:");
-                String language = getStringInput();
+                Optional<String> language = Optional.ofNullable(getStringInput());
 
                 System.out.println("Permalink:");
-                String permalink = getStringInput();
+                Optional<String> permalink = Optional.ofNullable(getStringInput());
 
-                factController.updateParams(id, text.describeConstable(), source.describeConstable(), sourceUrl.describeConstable(), language.describeConstable(), permalink.describeConstable());
+                factController.updateParams(id, text, source, sourceUrl, language, permalink);
 
                 System.out.println("Parameters have been edited!");
             }
@@ -190,19 +211,23 @@ private final FactProxy factProxy;
     }
 
     public void getFactDTOPretty(FactDTO factDTO){
+        System.out.println("▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒");
         System.out.println("Text: " + factDTO.getText());
         System.out.println("Source: " + factDTO.getSource());
         System.out.println("Source URL: " + factDTO.getSourceUrl());
         System.out.println("Language: " + factDTO.getLanguage());
         System.out.println("Permalink: " + factDTO.getPermalink());
+        System.out.println("▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒");
     }
 
     public void getFactPretty(Fact fact){
+        System.out.println("▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒");
         System.out.println("Id: " + fact.getId());
         System.out.println("Text: " + fact.getText());
         System.out.println("Source: " + fact.getSource());
         System.out.println("Source URL: " + fact.getSourceUrl());
         System.out.println("Language: " + fact.getLanguage());
         System.out.println("Permalink: " + fact.getPermalink());
+        System.out.println("▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒");
     }
 }
